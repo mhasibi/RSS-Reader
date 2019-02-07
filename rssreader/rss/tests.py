@@ -23,4 +23,13 @@ class RssIndexViewTests(TestCase):
         self.assertEqual(response.context["feed"], None)
 
     def test_user_feed(self):
-        pass
+        """
+        This test is very similar to the test_no_feed method with the difference being the url query parameter appended
+        to the endpoint. Since we are supplying a feed in this use case, we instead use the assertNotEqual method to
+        ensure that the feed object is not None.
+        """
+        response = self.client.get(reverse("index") + "?url=https://www.djangoproject.com/rss/weblog/")
+
+        self.assertEqual(response.status_code, 200)
+        self.assertNotEqual(response.context["feed"], None)
+
